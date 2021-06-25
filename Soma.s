@@ -19,31 +19,27 @@ erro: .asciiz "ERRO"
 	.globl main
 	
 main:
-	# carregar o número
 	li $v0, 5
-	syscall
+	syscall # carregar o número
 	
-	# se negativo termina
-	blt $v0, $zero, endMenosUm
+	blt $v0, $zero, endMenosUm # se negativo termina
 	
-	# chamar função
 	move $t2, $v0
-	jal soma
+	jal soma # goto soma
 	
-	#imprimir soma
 	move $a0, $t1
 	li $v0, 1
-	syscall
+	syscall #imprimir soma
 	
 	# \n
 	li $v0, 4
 	la $a0, endl
 	syscall
 	
-	# imprimir resultado
+	
 	move $a0, $s0
 	li $v0, 1
-	syscall
+	syscall # imprimir resultado
 	
 	# \n
 	li $v0, 4
@@ -52,22 +48,17 @@ main:
 	
 	j end
 	
-	#j main
-	
-	
 soma:
 	# iniciar registradores temporários
 	li $t0, 0     # cont
 	li $t1, 0     # temp
-	li $t6, -1     # -1
-	#move $t2, $a2 # n
+	li $t6, -1    # -1
 	
 while:
 	beq $t2, $t6, fim_soma #if (n == -1) goto fim_soma
 	
 	addi $t0, $t0, 1 #cont = cont+1
-	add $t1, $t1, $t2 #temp = temp+n
-	
+	add $t1, $t1, $t2 #temp = temp+n	
 	li $v0, 5
 	syscall #le do teclado
 	move $t2, $v0 #copia o input pra t2(n)
@@ -77,10 +68,9 @@ while:
 fim_soma:
 	div $t1, $t0
 	mflo $s0
-
-	jr $ra
+	jr $ra # retorna pro main
 	
-endMenosUm:
+endMenosUm: #caso o usuario insira -1 como primeiro numero
 	
 	li $v0, 1
 	la $a0, 0
